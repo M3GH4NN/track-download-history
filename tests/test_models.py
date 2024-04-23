@@ -1,17 +1,12 @@
-import unittest
 from models import Contributor, Resource
 
-class TestModels(unittest.TestCase):
-    def test_contributor_creation(self):
-        contributor = Contributor("Alice")
-        self.assertEqual(contributor.name, "Alice")
-        self.assertEqual(contributor.resources, {})
+def test_contributor_creation():
+    contributor = Contributor("Alice")
+    assert contributor.name == "Alice"
+    assert contributor.resources == {}
 
-    def test_resource_creation(self):
-        resource = Resource("resource1", 5)
-        self.assertEqual(resource.resource_id, "resource1")
-        self.assertEqual(resource.rating, 5)
-        self.assertEqual(resource.downloads, [])
-
-if __name__ == "__main__":
-    unittest.main()
+def test_resource_creation():
+    resource = Resource("resource1", 5)
+    assert resource.resource_id == "resource1"
+    assert resource.rating == 5
+    assert resource.downloads == []

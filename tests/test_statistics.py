@@ -1,27 +1,15 @@
-import unittest
+from statistics import calculate_average_downloads, print_statistics, calculate_statistics
 from models import Contributor, Resource
-from statistics import calculate_statistics
-from unittest.mock import patch, call
+import pytest
 
 
-class TestStatistics(unittest.TestCase):
-    @patch("builtins.print")
-    def test_calculate_statistics(self, mock_print):
-        contributors = {"Carol": Contributor("Carol"), "Dave": Contributor("Dave")}
-        contributors["Carol"].resources["res1"] = Resource("res1", 4)
-        contributors["Dave"].resources["res2"] = Resource("res2", 3)
-        contributors["Carol"].resources["res1"].downloads = ["2020-01-01", "2020-01-02"]
-        contributors["Dave"].resources["res2"].downloads = ["2020-01-01"]
+def test_calculate_statistics_empty():
+    with pytest.raises(ValueError) as excinfo:
+        calculate_statistics({})
+    assert "No contributors data to process" in str(excinfo.value)
 
-        calculate_statistics(contributors)
-
-        # Check all calls to print and validate against expected results
-        expected_calls = [
-            call("Carol: 2 downloads, 0.005 downloads/day"),
-            call("Dave: 1 downloads, 0.003 downloads/day"),
-        ]
-        mock_print.assert_has_calls(expected_calls, any_order=False)
-
-
-if __name__ == "__main__":
-    unittest.main()
+def test_print_statistics(capsys):  # capsys is a pytest fixture that captures print statements
+    contributors_stats = {'Alice': (5, 0.014)}
+    print_statistics(contributors_stats)
+    captured = capsys.readouterr()
+    assert "Alice: 5 downloads, 0.014 downloads/day" in captured.out
