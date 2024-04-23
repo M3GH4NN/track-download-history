@@ -1,5 +1,6 @@
-from process import process_commands, ProcessError
 from statistics import calculate_statistics
+from process import process_commands, ProcessError
+
 
 def main():
     try:
@@ -12,5 +13,6 @@ def main():
     except Exception as e:
         print(f"An unexpected error occurred: {e}")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()
